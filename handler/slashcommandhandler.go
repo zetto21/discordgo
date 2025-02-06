@@ -20,7 +20,7 @@ func RegisterSlashCommands(dg *discordgo.Session) {
         return
     }
 
-    // 명령어 등록
+    // 모든 샤드에서 명령어 등록
     commands := loadCommands()
 
     var registeredCount int
@@ -35,5 +35,33 @@ func RegisterSlashCommands(dg *discordgo.Session) {
         }
     }
 
-    fmt.Printf("%d개의 명령어가 성공적으로 등록되었습니다.\n", registeredCount)
+    fmt.Printf("총 %d 개의 명령이 성공적으로 등록되었습니다.\n", registeredCount)
+
+    // 기존 명령 가져오기
+    existingCommands, err := dg.ApplicationCommands(dg.State.User.ID, "")
+    if err != nil {
+        fmt.Println("애플리케이션 명령을 가져오는 중 오류가 발생했습니다:", err)
+        return
+    }
+
+    var deletedCount int
+    desiredCommandMap := make(map[string]bool)
+
+    for _, cmd := range commands {
+        desiredCommandMap[cmd.Name] = true
+    }
+
+    // 필요 없는 명령 삭제
+    for _, cmd := range existingCommands {
+        if !desiredCommandMap[cmd.Name] {
+            err := dg.ApplicationCommandDelete(dg.State.User.ID, "", cmd.ID)
+            if err != nil {
+                fmt.Printf("명령 '%s' 삭제 중 오류: %v\n", cmd.Name, err)
+            } else {
+                deletedCount++
+            }
+        }
+    }
+
+    fmt.Printf("총 %d 개의 불필요한 명령이 삭제되었습니다.\n", deletedCount)
 }
