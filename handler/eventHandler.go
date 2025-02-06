@@ -8,6 +8,6 @@ import (
 
 func RegisterEventHandlers(dg *discordgo.Session) {
 	dg.AddHandler(client.Ready)
-	// dg.AddHandler(guilds.InteractionCreate)
-	// dg.AddHandler(guilds.MessageCreate)
+	dg.AddHandler(guilds.InteractionCreate)
+	dg.AddHandler(guilds.MessageCreate)
 }
