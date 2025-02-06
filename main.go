@@ -90,21 +90,9 @@ func main() {
 		return
 	}
 
-	// Discord 세션 생성
-	dg, err := discordgo.New("Bot " + token)
-	if err != nil {
-		fmt.Println("Discord 세션 생성 중 오류 발생:", err)
-		return
-	}
-
-	// 권장 샤드 수 가져오기
-	gateway, err := dg.GatewayBot()
-	if err != nil {
-		fmt.Println("권장 샤드 수를 가져오는 중 오류 발생:", err)
-		return
-	}
-	totalShards := gateway.Shards
-	fmt.Printf("권장 샤드 수: %d\n", totalShards)
+	// 샤드 수 설정 (3개 이상으로 설정)
+	totalShards := 2 // 원하는 샤드 수로 변경 가능
+    fmt.Printf("수동 샤드 수: %d\n", totalShards)
 
 	// WaitGroup으로 샤드 실행 관리
 	var wg sync.WaitGroup
@@ -113,6 +101,7 @@ func main() {
 		go runShard(shardID, totalShards, token, &wg)
 	}
 
-	wg.Wait()
+	fmt.Println("모든 샤드가 실행 중입니다. 종료하려면 Ctrl+C를 누르세요.")
+	wg.Wait() // 모든 샤드가 종료될 때까지 대기
 	fmt.Println("모든 샤드가 종료되었습니다. 프로그램을 종료합니다.")
 }
