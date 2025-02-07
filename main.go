@@ -20,12 +20,7 @@ func runShard(shardID, totalShards int, token string, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	// Discord Intents 설정
-	intents := discordgo.IntentsGuilds |
-		discordgo.IntentsGuildMessages |
-		discordgo.IntentsGuildMessageReactions |
-		discordgo.IntentsGuildPresences |
-		discordgo.IntentsGuildMembers |
-		discordgo.IntentsMessageContent
+	intents := discordgo.Intent(16291)
 
 	// Discord 세션 생성
 	dg, err := discordgo.New("Bot " + token)
