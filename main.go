@@ -35,12 +35,7 @@ func main() {
     }
 
     // Discord Intents 설정
-    dg.Identify.Intents = discordgo.IntentsGuilds |
-        discordgo.IntentsGuildMessages |
-        discordgo.IntentsGuildMessageReactions |
-        discordgo.IntentsGuildPresences |
-        discordgo.IntentsGuildMembers |
-        discordgo.IntentsMessageContent
+    dg.Identify.Intents = discordgo.Intent(16291)
 
     // Ready 이벤트 핸들러 등록
     dg.AddHandler(func(s *discordgo.Session, r *discordgo.Ready) {
