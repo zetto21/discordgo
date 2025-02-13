@@ -14,7 +14,7 @@ import (
 
 // Register slash commands in a map
 var SlashCommands = map[string]func(*discordgo.Session, *discordgo.InteractionCreate){
-	"ping": slashCommands.PingSlashCommand,
+	"핑": slashCommands.PingSlashCommand,
 }
 
 
